@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def AVOSCloud_App_Id = properties.getProperty('AVOSCloud.AppId')
+def AVOSCloud_App_Key = properties.getProperty('AVOSCloud.AppKey')
+def BUGHD_GeneralToken = properties.getProperty('bughd.generalToken')
+def UMENG_App_Key = properties.getProperty('umeng.appKey')
+def _keyPassword = properties.getProperty('signConfig.keyPassword')
+def _storePassword = properties.getProperty('signConfig.storePassword')
+android {
+    signingConfigs {
+        release_config {
+            keyAlias 'xt_keystore'
+            keyPassword _keyPassword
+            storePassword _storePassword
+            storeFile file("${project.rootDir}/xt_keystore.jks")
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
+    defaultConfig {
+        applicationId "com.lulee007.xitu"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 7
+        versionName "1.1.8"
+
+        buildConfigField "String", "AVOSCloud_App_Id", "\"${AVOSCloud_App_Id}\""
+        buildConfigField "String", "AVOSCloud_App_Key", "\"${AVOSCloud_App_Key}\""
+
+        manifestPlaceholders = [
+                BUG_HD_SDK_GENERAL_KEY: "${BUGHD_GeneralToken}",
+                UMENG_APPKEY          : "${UMENG_App_Key}"
+        ]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release_config
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+//apply plugin: 'im.fir.plugin.gradle'//必填
+//fir {
+//
+////必填 上传 fir.im apk 字段，否则无法上传 APP 到 fir.im
+//    apiToken "${FIR_ApiToken}"
+//
+////可选 上传fir.im 中显示的changelog
+//    changeLog '替换为你的更新日志'
+//}
+//
+////可选 如需实现自动上传符号表到 BugHD 功能，为必填项
+//bughd {
+//    projectId "${BUGHD_ProjectId}"
+//    apiToken "${BUGHD_ApiToken}"
+//}
+
+apply plugin: 'packer'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.orhanobut:logger:1.11'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.github.pwittchen:prefser:2.0.5'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.3.18'
+    compile('com.mikepenz:materialdrawer:4.6.2@aar') {
+        transitive = true
+    }
+    compile 'cn.pedant.sweetalert:library:1.3'
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+        transitive = true
+    }
+    compile 'im.fir:fir-sdk:latest.integration@aar'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    // add packer-helper 多渠道打包
+    compile 'com.mcxiaoke.gradle:packer-helper:1.0.4'
+}

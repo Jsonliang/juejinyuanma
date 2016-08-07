@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lulee007.xitu" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:icon"
+        android:name=".base.XTApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+
+        <meta-data android:value="${BUG_HD_SDK_GENERAL_KEY}" android:name="BUG_HD_SDK_GENERAL_KEY" />
+        <meta-data android:value="${UMENG_APPKEY}" android:name="UMENG_APPKEY"></meta-data>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".LoginOptionsActivity" />
+        <activity android:name=".RegisterByPhoneActivity" />
+        <activity android:name=".LoginByPhoneActivity" />
+        <activity android:name=".LoginByWeiboActivity" />
+        <activity android:name=".TagFollowGuideActivity" />
+        <activity android:name=".AuthorsActivity" />
+        <activity android:name=".AuthorHomeActivity" />
+        <activity android:name=".EntryWebPageActivity" />
+        <activity android:name=".EntriesByTagActivity" />
+        <activity android:name=".ManageTagsActivity" />
+        <activity android:name=".VerifyPhoneActivity" >
+        </activity>
+    </application>
+
+</manifest>
